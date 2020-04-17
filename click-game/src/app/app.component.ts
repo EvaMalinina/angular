@@ -31,6 +31,10 @@ export class AppComponent {
     }
   }
 
+  changeName() {
+    this.name = prompt('Tell me your name please');
+  }
+
   startTimer() {
     this.showClickBtn();
 
@@ -60,7 +64,6 @@ export class AppComponent {
           }
 
           this.records.push(user);
-          // this.showRecords();
 
           this.clickNumber = 0;
           this.showClickBtn();
@@ -78,26 +81,4 @@ export class AppComponent {
       this.clickNumber = 0
     }
   }
-
-  // showRecords() {
-  //   // let recordsWrap = this.recordsRef.nativeElement;
-  //   let list = this.listRef.nativeElement;
-  //   // list.className = 'records__list';
-  //
-  //   // recordsWrap.appendChild(list);
-  //
-  //   let recordsArr = this.records;
-  //
-  //   for ( let record of recordsArr ) {
-  //     let li = document.createElement('li');
-  //     li.className = 'records__item';
-  //     list.appendChild(li);
-  //
-  //     li.insertAdjacentHTML('afterbegin', `
-  //       <p class="records__player">Player: ${ record.name }</p>
-  //       <p>Score: ${ record.score }</p>
-  //   `)
-  //   }
-  //   this.records = [];
-  // }
 }

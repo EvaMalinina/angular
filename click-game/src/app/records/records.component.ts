@@ -10,9 +10,7 @@ export class RecordsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
   }
   @Input() receivedRecords: any[]
-
-
-
 }

@@ -9,7 +9,7 @@
         <div class="content__text">
           <h1>{{ title }} is on!</h1>
           <h3>Hello, {{ name }}</h3>
-          <button class="btn btn_rectangle btn__mb" (click)="getName()">Change user</button>
+          <button class="btn btn_rectangle btn__mb" (click)="changeName()">Change user</button>
           <p>You clicked {{ clickNumber }} times</p>
         </div>
         <div class="content__btn">
@@ -23,7 +23,6 @@
     </div>
     <app-records [receivedRecords]="records"></app-records>
   </div>
-
 
 </div>
 <router-outlet></router-outlet>
