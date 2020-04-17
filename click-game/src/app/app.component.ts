@@ -67,7 +67,7 @@ export class AppComponent {
           }
 
           this.records.push(user);
-          // console.log(this.records)
+          console.log(this.records)
 
           this.clickNumber = 0;
           btnStart.style.display = 'block';

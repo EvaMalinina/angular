@@ -30,9 +30,12 @@ body {
   font-size: 25px;
   font-family: "Andale Mono";
   display: flex;
-  justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+.main {
+  margin: 0 auto;
 }
 
 .main h1 {
@@ -55,6 +58,7 @@ body {
 
 .content {
   display: none;
+  min-width: 77%;
 }
 
 .content__text h1,
@@ -79,10 +83,13 @@ body {
   text-transform: uppercase;
   border: 3px dashed #201d1d;
   border-radius: 50%;
-  height: 85px;
+  height: 100px;
   letter-spacing: 2px;
-  width: 85px;
+  width: 100px;
   outline: none;
+  line-height: 1.5;
+  font-size: 16px;
+  font-weight: 500;
 
   &:hover {
     background-color: #910505;
@@ -90,6 +97,30 @@ body {
     transition: 0.6s;
   }
 
+  &_rectangle {
+    border-radius: 0;
+    height: 25px;
+    border-top: 0;
+    border-bottom: 0;
+    border-left: 1px dashed #201d1d;
+    border-right: 1px dashed #201d1d;
+    background-color: #d2cfcf;
+    color: #201d1d;
+    white-space: nowrap;
+    width: 15%;
+    font-size: 14px;
+
+    &:hover {
+      background-color: #201d1d;
+      color: whitesmoke;
+      transition: 0.5s;
+      border: none;
+    }
+  }
+
+  &__mb {
+    margin-bottom: 20px;
+  }
 }
 
 
