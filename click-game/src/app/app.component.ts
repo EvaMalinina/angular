@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {ViewChild, ElementRef} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -14,43 +13,26 @@ export class AppComponent {
   time: number = 10;
   interval;
   records: any[] = [];
+  show: boolean = false;
+  visibleBtn: boolean = false;
 
-
-  @ViewChild('content') contentRef: ElementRef;
   showGameTemplate() {
-    this.contentRef.nativeElement.style.display = 'flex';
+    this.show = !this.show;
   }
 
-  @ViewChild('records') recordsRef: ElementRef;
-  showRecordsTemplate() {
-    this.recordsRef.nativeElement.style.display = 'flex';
-  }
-
-  @ViewChild('main') mainRef: ElementRef;
-  hideMainScreen() {
-    this.mainRef.nativeElement.style.display = 'none';
+  showClickBtn() {
+    this.visibleBtn = !this.visibleBtn;
   }
 
   getName() {
-    console.log('main', this.mainRef)
     this.name = prompt('Tell me your name please');
     if(this.name) {
       this.showGameTemplate();
-      this.showRecordsTemplate();
-      this.hideMainScreen();
     }
   }
 
-  @ViewChild('btnStart') btnStartRef: ElementRef;
-  @ViewChild('btnClick') btnClickRef: ElementRef;
-  changeBtn() {
-    this.btnStartRef.nativeElement.style.display = 'none';
-    this.btnClickRef.nativeElement.style.display = 'block';
-  }
-
-
   startTimer() {
-    this.changeBtn();
+    this.showClickBtn();
 
     this.interval = setInterval(() => {
       if( this.time > 0 ) {
@@ -78,11 +60,10 @@ export class AppComponent {
           }
 
           this.records.push(user);
-          this.showRecords();
+          // this.showRecords();
 
           this.clickNumber = 0;
-          this.btnStartRef.nativeElement.style.display = 'block';
-          this.btnClickRef.nativeElement.style.display = 'none';
+          this.showClickBtn();
         }
       } else {
         this.time = 10;
@@ -98,26 +79,25 @@ export class AppComponent {
     }
   }
 
-  @ViewChild('list') listRef: ElementRef;
-  showRecords() {
-    let recordsWrap = this.recordsRef.nativeElement;
-    let list = this.listRef.nativeElement;
-    list.className = 'records__list';
-
-    recordsWrap.appendChild(list);
-
-    let recordsArr = this.records;
-
-    for ( let record of recordsArr ) {
-      let li = document.createElement('li');
-      li.className = 'records__item';
-      list.appendChild(li);
-
-      li.insertAdjacentHTML('afterbegin', `
-        <p class="records__player">Player: ${ record.name }</p>
-        <p>Score: ${ record.score }</p>
-    `)
-    }
-    this.records = [];
-  }
+  // showRecords() {
+  //   // let recordsWrap = this.recordsRef.nativeElement;
+  //   let list = this.listRef.nativeElement;
+  //   // list.className = 'records__list';
+  //
+  //   // recordsWrap.appendChild(list);
+  //
+  //   let recordsArr = this.records;
+  //
+  //   for ( let record of recordsArr ) {
+  //     let li = document.createElement('li');
+  //     li.className = 'records__item';
+  //     list.appendChild(li);
+  //
+  //     li.insertAdjacentHTML('afterbegin', `
+  //       <p class="records__player">Player: ${ record.name }</p>
+  //       <p>Score: ${ record.score }</p>
+  //   `)
+  //   }
+  //   this.records = [];
+  // }
 }

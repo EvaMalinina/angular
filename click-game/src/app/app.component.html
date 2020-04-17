@@ -1,25 +1,29 @@
 <div class="wrapper">
-  <div class="main" #main>
+  <div class="main" *ngIf="!show">
     <h1>Wanna play clicking game?</h1>
     <button class="btn" (click)="getName()">Sure</button>
   </div>
-  <div class="content" #content>
-    <div class="container">
-      <div class="content__text">
-        <h1>{{ title }} is on!</h1>
-        <h3>Hello, {{ name }}</h3>
-        <button class="btn btn_rectangle btn__mb" (click)="getName()">Change user</button>
-        <p>You clicked {{ clickNumber }} times</p>
-      </div>
-      <div class="content__btn">
-        <button class="btn" #btnStart (click)='startTimer()'>Click to start</button>
-        <button class="btn" #btnClick (click)='countClick()'>Click!</button>
-      </div>
-      <div class="content__timer">
-        <p>Seconds left: {{ time }}</p>
+  <div class="content-wrapper" *ngIf="show">
+    <div class="content">
+      <div class="container">
+        <div class="content__text">
+          <h1>{{ title }} is on!</h1>
+          <h3>Hello, {{ name }}</h3>
+          <button class="btn btn_rectangle btn__mb" (click)="getName()">Change user</button>
+          <p>You clicked {{ clickNumber }} times</p>
+        </div>
+        <div class="content__btn">
+          <button class="btn" (click)='startTimer()' *ngIf="!visibleBtn">Click to start</button>
+          <button class="btn" (click)='countClick()' *ngIf="visibleBtn">Click!</button>
+        </div>
+        <div class="content__timer">
+          <p>Seconds left: {{ time }}</p>
+        </div>
       </div>
     </div>
+    <app-records [receivedRecords]="records"></app-records>
   </div>
-  <app-records></app-records>
+
+
 </div>
 <router-outlet></router-outlet>

@@ -31,8 +31,12 @@
   padding-bottom: 150px;
 }
 
+.content-wrapper {
+  width: 100%;
+  display: flex;
+}
+
 .content {
-  display: none;
   min-width: 77%;
 }
 
