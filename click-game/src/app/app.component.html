@@ -1,9 +1,9 @@
 <div class="wrapper">
-  <div class="main" id="main">
+  <div class="main" #main>
     <h1>Wanna play clicking game?</h1>
     <button class="btn" (click)="getName()">Sure</button>
   </div>
-  <div class="content" id="content">
+  <div class="content" #content>
     <div class="container">
       <div class="content__text">
         <h1>{{ title }} is on!</h1>
@@ -12,8 +12,8 @@
         <p>You clicked {{ clickNumber }} times</p>
       </div>
       <div class="content__btn">
-        <button class="btn" id="btn-start" (click)='startTimer()'>Click to start</button>
-        <button class="btn" id="btn-click" (click)='countClick()'>Click!</button>
+        <button class="btn" #btnStart (click)='startTimer()'>Click to start</button>
+        <button class="btn" #btnClick (click)='countClick()'>Click!</button>
       </div>
       <div class="content__timer">
         <p>Seconds left: {{ time }}</p>

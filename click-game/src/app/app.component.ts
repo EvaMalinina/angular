@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {ViewChild, ElementRef} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,39 +8,49 @@ import { Component } from '@angular/core';
 })
 
 export class AppComponent {
-  title = 'Click-game';
-  name = 'Mate';
-  clickNumber = 0;
+  title: string = 'Click-game';
+  name: string = 'Mate';
+  clickNumber: number = 0;
   time: number = 10;
   interval;
-  records = [];
+  records: any[] = [];
 
+
+  @ViewChild('content') contentRef: ElementRef;
   showGameTemplate() {
-    document.getElementById('content').style.display = 'flex';
+    this.contentRef.nativeElement.style.display = 'flex';
   }
 
+  @ViewChild('records') recordsRef: ElementRef;
   showRecordsTemplate() {
-    document.getElementById('records').style.display = 'flex';
+    this.recordsRef.nativeElement.style.display = 'flex';
   }
 
+  @ViewChild('main') mainRef: ElementRef;
   hideMainScreen() {
-    document.getElementById('main').style.display = 'none';
+    this.mainRef.nativeElement.style.display = 'none';
   }
 
   getName() {
+    console.log('main', this.mainRef)
     this.name = prompt('Tell me your name please');
-    if(true) {
+    if(this.name) {
       this.showGameTemplate();
       this.showRecordsTemplate();
       this.hideMainScreen();
     }
   }
 
+  @ViewChild('btnStart') btnStartRef: ElementRef;
+  @ViewChild('btnClick') btnClickRef: ElementRef;
+  changeBtn() {
+    this.btnStartRef.nativeElement.style.display = 'none';
+    this.btnClickRef.nativeElement.style.display = 'block';
+  }
+
+
   startTimer() {
-    let btnStart = document.getElementById('btn-start');
-    let btnClick = document.getElementById('btn-click');
-    btnStart.style.display = 'none';
-    btnClick.style.display = 'block';
+    this.changeBtn();
 
     this.interval = setInterval(() => {
       if( this.time > 0 ) {
@@ -67,11 +78,11 @@ export class AppComponent {
           }
 
           this.records.push(user);
-          console.log(this.records)
+          this.showRecords();
 
           this.clickNumber = 0;
-          btnStart.style.display = 'block';
-          btnClick.style.display = 'none';
+          this.btnStartRef.nativeElement.style.display = 'block';
+          this.btnClickRef.nativeElement.style.display = 'none';
         }
       } else {
         this.time = 10;
@@ -85,5 +96,28 @@ export class AppComponent {
     } else {
       this.clickNumber = 0
     }
+  }
+
+  @ViewChild('list') listRef: ElementRef;
+  showRecords() {
+    let recordsWrap = this.recordsRef.nativeElement;
+    let list = this.listRef.nativeElement;
+    list.className = 'records__list';
+
+    recordsWrap.appendChild(list);
+
+    let recordsArr = this.records;
+
+    for ( let record of recordsArr ) {
+      let li = document.createElement('li');
+      li.className = 'records__item';
+      list.appendChild(li);
+
+      li.insertAdjacentHTML('afterbegin', `
+        <p class="records__player">Player: ${ record.name }</p>
+        <p>Score: ${ record.score }</p>
+    `)
+    }
+    this.records = [];
   }
 }
