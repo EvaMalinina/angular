@@ -1,0 +1,9 @@
+<div class="records">
+  <h3>Users records:</h3>
+  <ul class="records__list" *ngFor="let user of receivedRecords">
+    <li class="records__item">
+      <p class="records__player">Player: {{ user.name }}</p>
+      <p>Score: {{ user.score }}</p>
+    </li>
+  </ul>
+</div>
