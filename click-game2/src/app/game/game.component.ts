@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {NameService} from "../services/name.service";
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-game',
@@ -16,19 +15,12 @@ export class GameComponent implements OnInit {
   time: number = 10;
   interval;
   records: any[] = [];
-  // show: boolean = false;
   visibleBtn: boolean = false;
 
   constructor( private nameService: NameService ) {}
 
   ngOnInit() {
-    // this.nameService.sharedName.subscribe(resp => {
-    //   this.name = resp;
-    // });
-    new Observable(
-      this.nameService.sharedName.subscribe(name => this.name = name)
-    )
-
+    this.nameService.sharedName.subscribe(name => this.name = name)
   }
 
   showClickBtn() {

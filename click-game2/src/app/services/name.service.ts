@@ -1,4 +1,4 @@
-import {EventEmitter, Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject} from 'rxjs';
 
 @Injectable({
@@ -7,12 +7,9 @@ import { BehaviorSubject} from 'rxjs';
 
 export class NameService {
 
-  private name: string = 'default';
-  sharedName: EventEmitter<string> = new EventEmitter();
-
-  public setName(name){
-    this.sharedName.emit(name)
+  public sharedName: BehaviorSubject<string> =  new BehaviorSubject<string>('');
+  setName(name: string) {
+    this.sharedName.next(name);
   }
-
 }
 
