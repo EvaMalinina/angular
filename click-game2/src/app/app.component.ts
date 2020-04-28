@@ -1,5 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {NameService} from "./services/name.service";
+import {Component, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'app-root',

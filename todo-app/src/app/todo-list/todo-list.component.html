@@ -1,0 +1,20 @@
+<form class="form">
+  <mat-form-field class="full-width">
+    <input matInput
+           [(ngModel)]="todo.title"
+           placeholder="Enter Title" name="title">
+  </mat-form-field>
+
+  <button mat-raised-button (click) = "addTodo()">Save</button>
+</form>
+
+<div class="form">
+  <h4>List of Todos</h4>
+  <mat-selection-list #shoes>
+    <div *ngFor="let todo of todos">
+      <mat-list-option [selected]="todo.isDone" (click)="mark(todo)">
+        {{todo.title}}
+      </mat-list-option>
+    </div>
+  </mat-selection-list>
+</div>
