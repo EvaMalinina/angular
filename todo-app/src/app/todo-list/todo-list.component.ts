@@ -41,5 +41,4 @@ export class TodoListComponent implements OnInit {
       this.todos[index] = todo;
     });
   }
-
 }
