@@ -1,20 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import {Todo} from "../todo";
-import {TodoDataService} from "../todo-data.service";
+import {ITodo} from "../Models/todo.model";
+import {TodoDataService} from "../services/todo-data.service";
+import { Todo } from "../todo";
 
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss']
 })
+
 export class TodoListComponent implements OnInit {
 
-  todos: Todo[];
-  todo: Todo = {
-    id: Date.now(),
-    title: "",
-    isDone: false
-  };
+  todos: ITodo[];
+  todo: ITodo = new Todo( Date.now(),"",false);
 
   constructor(private todoDataService: TodoDataService) { }
 
@@ -29,12 +27,12 @@ export class TodoListComponent implements OnInit {
   }
 
   listTodo() {
-    this.todoDataService.listTodo().subscribe((data: Todo[])=>{
+    this.todoDataService.listTodo().subscribe((data: ITodo[])=>{
       this.todos = data;
     });
   }
 
-  mark(todo) {
+  mark(todo: Todo) {
     todo.isDone = !todo.isDone;
     this.todoDataService.markTodo(todo).subscribe((data)=>{
       let index = this.todos.indexOf(todo);
