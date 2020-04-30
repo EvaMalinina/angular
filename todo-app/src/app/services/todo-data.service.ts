@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Todo } from '../todo';
+import { Todo } from '../Models/todo';
 
 @Injectable({
   providedIn: 'root'

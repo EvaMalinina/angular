@@ -1,4 +1,4 @@
-import {ITodo} from "./Models/todo.model";
+import {ITodo} from "./todo.model";
 
 export class Todo implements ITodo {
   public id?: number;
