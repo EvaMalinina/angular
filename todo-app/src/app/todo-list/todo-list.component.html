@@ -1,20 +1,26 @@
-<form class="form">
+<form class="form" [formGroup]="form">
   <h4>Note List</h4>
   <mat-form-field class="full-width">
+    <!--           [(ngModel)]="todo.title"-->
     <input matInput
-           [(ngModel)]="todo.title"
-           placeholder="Enter Title" name="title">
+          formControlName="title"
+           placeholder="what's need to be done?" name="title">
   </mat-form-field>
 
   <button mat-button   (click) = "addTodo()">Note</button>
 </form>
 
-<div class="form">
-  <mat-selection-list #shoes>
+<!--*ngIf="todos.length; else noTodos"-->
+<div class="form" >
+  <mat-selection-list >
     <div *ngFor="let todo of todos">
-      <mat-list-option [selected]="todo.isDone" (click)="mark(todo)">
+<!--      (click)="mark(todo)"-->
+      <mat-list-option [selected]="todo.isDone" ]>
         {{todo.title}}
       </mat-list-option>
     </div>
   </mat-selection-list>
 </div>
+<ng-template #noTodos>
+  <p>No notes ...</p>
+</ng-template>
