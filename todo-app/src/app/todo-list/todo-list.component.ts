@@ -15,7 +15,6 @@ export class TodoListComponent implements OnInit {
 
   todos: ITodo[];
   todo: ITodo = new Todo( Date.now()+ '',"",false);
-
   form: FormGroup
 
   constructor(private todoDataService: TodoDataService) { }
@@ -42,28 +41,20 @@ export class TodoListComponent implements OnInit {
     }, err => console.error(err))
   }
 
-  // ngOnInit() {
-  //   // this.todoDataService.getTodoList().snapshotChanges().subscribe(
-  //   //   item => {
-  //   //     this.todos = [];
-  //   //     item.forEach( el => {
-  //   //       let note = el.payload.toJSON();
-  //   //       note['key'] = el.key;
-  //   //       console.log(note)
-  //   //       this.todos.push(note)
-  //   //     })
-  //   //     //
-  //   //     // this.todos.sort( ( a: Todo, b: Todo ) => {
-  //   //     //   return a.isDone? - b.isDone?;
-  //   //     // })
-  //   //   })
-  //   // this.listTodo();
-  //
-  // }
+  listTodo() {
+    this.todoDataService.listTodo().subscribe((data: ITodo[])=>{
 
-  // addTodo(todo: Todo) {
-  //   this.todoDataService.addTodo(todo);
-  // }
+      let list = [];
+      Object.keys(data).forEach(function(prop) {
+        let inner = data[prop]
+        let val = Object.values(inner)[0]
+
+        list.push(val)
+      })
+
+      this.todos = list;
+    });
+  }
 
   // addTodo(todo: Todo) {
   //   this.todoDataService.addTodo(this.todo).subscribe((todo)=>{
@@ -71,11 +62,6 @@ export class TodoListComponent implements OnInit {
   //   });
   // }
 
-  listTodo() {
-    this.todoDataService.listTodo().subscribe((todos: ITodo[])=>{
-      this.todos = todos;
-    });
-  }
   //
   // mark(todo: Todo) {
   //   todo.isDone = !todo.isDone;

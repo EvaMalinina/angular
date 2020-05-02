@@ -10,31 +10,33 @@ import { IResponse } from "../Models/res.model";
   providedIn: 'root'
 })
 
-
 export class TodoDataService {
-
   // todoList: AngularFireList<any>;
   baseUrl = 'https://todolist-89791.firebaseio.com/todos';
 
   // TODO = 'todos'
   constructor(
-    private http: HttpClient,
-    // public firebaseDb: AngularFireDatabase
+    private http: HttpClient
   ) { }
-
-  // getTodoList() {
-  //   this.todoList = this.firebaseDb.list('todos');
-  //   return this.todoList;
-  // }
 
   listTodo() {
     return this.http
       .get<Todo[]>(`${this.baseUrl}.json`)
       .pipe(map( todos => {
         if (!todos) {
+          console.log('no todos')
           return []
         }
-        return Object.keys(todos).map(key => ({ ...todos[key], id: key}))
+      // return Object.keys(todos).map(key => ({ ...todos[key], id: key}))
+      // todos = [];
+      //   Object.keys(todos).forEach(function(prop) {
+      //     let inner = todos[prop]
+      //     let val = Object.values(inner)[0]
+      //
+      //     todos.push(val)
+      //   })
+        console.log('todos yes', todos)
+        return todos;
       }))
   }
 
@@ -44,7 +46,6 @@ export class TodoDataService {
       .pipe(map(res => {
         return {...todo, id: res.name}
       }))
-    // this.todoList.push(todo)
   }
 
   // markTodo(todo: Todo) {
