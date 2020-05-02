@@ -1,26 +1,48 @@
-<form class="form" [formGroup]="form">
-  <h4>Note List</h4>
-  <mat-form-field class="full-width">
+<div class="wrapper">
+  <form class="form" [formGroup]="form">
+    <h4>Roxy List</h4>
+    <mat-form-field class="full-width">
 
-    <input matInput
-          formControlName="title"
-           placeholder="what's need to be done?" name="title">
-  </mat-form-field>
+      <input matInput
+             formControlName="title"
+             placeholder="What's need to be done?" name="title">
+    </mat-form-field>
 
-  <button mat-button   (click) = "addTodo()">Note</button>
-</form>
+    <button mat-button   (click) = "addTodo()">Note</button>
+  </form>
 
-<!--*ngIf="todos.length; else noTodos"-->
-<div class="form" >
-  <mat-selection-list >
-    <div *ngFor="let todo of todos">
-<!--      (click)="mark(todo)"-->
-      <mat-list-option [selected]="todo.isDone" ]>
-        {{todo.title}}
-      </mat-list-option>
-    </div>
-  </mat-selection-list>
+  <div class="form form_btns">
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btns">
+      <mat-button-toggle value="bold" class="btns__item" (click)="sortAll()">All</mat-button-toggle>
+      <mat-button-toggle value="bold" class="btns__item" (click)="sortDone()">Done</mat-button-toggle>
+      <mat-button-toggle value="italic" class="btns__item" (click)="sortInProgress()">In progress</mat-button-toggle>
+<!--      <mat-button-toggle value="underline" class="btns__item">by author</mat-button-toggle> -->
+    </mat-button-toggle-group>
+  </div>
+
+<!--  <input [(ngModel)]="query">-->
+
+
+  <!--*ngIf="todos.length; else noTodos"-->
+  <div class="form">
+    <mat-selection-list cdkDropList (cdkDropListDropped)="drop($event)">
+<!--      <div *ngFor="let todo of todos | search:'id,title':query" cdkDrag #todos class="form__row">-->
+      <div *ngFor="let todo of todos" cdkDrag #todos class="form__row">
+        <mat-list-option (click)="mark(todo)">
+          {{todo.title}}
+        </mat-list-option>
+        <button mat-icon-button color="primary" aria-label="delete icon">
+          <mat-icon (click)="delete(todo)">delete</mat-icon>
+        </button>
+      </div>
+    </mat-selection-list>
+    <!--  <p>-->
+    <!--    Already done: {{todos.selectedOptions.selected.length}}-->
+    <!--  </p>-->
+  </div>
+
+  <ng-template #noTodos>
+    <p>No notes ...</p>
+  </ng-template>
 </div>
-<ng-template #noTodos>
-  <p>No notes ...</p>
-</ng-template>
+

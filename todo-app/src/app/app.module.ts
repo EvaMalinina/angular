@@ -12,10 +12,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { TodoListComponent } from './todo-list/todo-list.component';
-import { TodoDataService } from './services/todo-data.service';
+import { TodoDataService } from './Services/todo-data.service';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import {DragDropModule} from "@angular/cdk/drag-drop";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 
 @NgModule({
@@ -36,6 +40,10 @@ import { AppRoutingModule } from './app-routing.module';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     ReactiveFormsModule,
+    DragDropModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatButtonToggleModule
   ],
   providers: [
     TodoDataService,
