@@ -17,13 +17,14 @@ export class TodoListComponent implements OnInit {
   todos: ITodo[];
   todo: ITodo = new Todo( Date.now()+ '',"",false);
   form: FormGroup
+  list: FormGroup
   searchInput: string
 
   constructor(private todoDataService: TodoDataService) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
-      title: new FormControl('', Validators.required)
+      title: new FormControl('', [Validators.required, Validators.minLength(2)]),
     })
     this.listTodo()
   }
@@ -58,13 +59,17 @@ export class TodoListComponent implements OnInit {
   }
 
   mark( todo: Todo ) {
+
+    // this.list = new FormGroup({
+    //   isDone: new FormControl()
+    // })
     todo.isDone = !todo.isDone;
     this.todoDataService.markTodo(todo).subscribe((data)=>{
       return todo;
     });
 
-    this.sortDone()
-    this.sortInProgress()
+    // this.sortDone()
+    // this.sortInProgress()
   }
 
   delete( todo: Todo ) {

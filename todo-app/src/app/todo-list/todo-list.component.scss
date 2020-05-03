@@ -1,17 +1,23 @@
 .wrapper {
-  padding-top: 80px;
+  padding-top: 2%;
 }
 
 .form {
   min-width: 150px;
-  max-width: 500px;
+  max-width: 350px;
   width: 100%;
   box-shadow: 3px 3px 4px 4px whitesmoke;
   border-radius: 4px;
-  margin: 1% auto;
+  margin: 1% auto 3% 1.5%;
   padding: 1%;
   background-color: whitesmoke;
+  opacity: 0.8;
   font-size: 30px;
+  font-family: 'Nunito', sans-serif;
+
+  @media (min-width: 768px) {
+    margin: 1% auto 3%;
+  }
 
   h4, button {
     font-size: 20px;
@@ -23,9 +29,27 @@
     box-shadow: none;
     min-width: fit-content;
     justify-content: center;
-    max-width: 300px;
+    min-width: 100%;
     padding: 0;
     background-color: transparent;
+    position: absolute;
+    bottom: 0;
+    margin: 0;
+  }
+
+  &__bg {
+    background-color: transparent;
+    opacity: 1;
+  }
+}
+
+.btns {
+  width: 100%;
+
+  &__item {
+    width: 33.3%;
+    box-shadow: 3px 3px 4px 4px whitesmoke;
+    font-size: 14px;
   }
 }
 
@@ -42,6 +66,10 @@
 .form__row {
   display: flex;
   justify-content: space-between;
+}
+
+.mat-list-base {
+  outline: none;
 }
 
 .cdk-drag-preview {

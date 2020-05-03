@@ -1,24 +1,17 @@
 <div class="wrapper">
   <form class="form" [formGroup]="form" (submit)=" $event.preventDefault()" (keydown.enter)="$event.preventDefault()">
-    <h4>Roxy List</h4>
-    <mat-form-field class="full-width">
+    <div class="form__bg">
+      <h4>Roxy List</h4>
+      <mat-form-field class="full-width">
 
-      <input matInput
-             formControlName="title"
-             placeholder="What's need to be done?" name="title">
-    </mat-form-field>
+        <input matInput
+               formControlName="title"
+               placeholder="What's need to be done?">
+      </mat-form-field>
 
-    <button mat-button (click) = "addTodo()">Note</button>
+      <button mat-button (click) = "addTodo()" [disabled]="form.invalid">Note</button>
+    </div>
   </form>
-
-  <div class="form form_btns">
-    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btns">
-      <mat-button-toggle value="bold" class="btns__item" (click)="sortAll()">All</mat-button-toggle>
-      <mat-button-toggle value="bold" class="btns__item" (click)="sortDone()">Done</mat-button-toggle>
-      <mat-button-toggle value="italic" class="btns__item" (click)="sortInProgress()">In progress</mat-button-toggle>
-<!--      <mat-button-toggle value="underline" class="btns__item">by author</mat-button-toggle> -->
-    </mat-button-toggle-group>
-  </div>
 
   <div class="search">
     <mat-form-field appearance="legacy">
@@ -31,7 +24,8 @@
   <div class="form">
     <mat-selection-list cdkDropList (cdkDropListDropped)="drop($event)">
       <div *ngFor="let todo of todos | filter : searchInput : 'title'" cdkDrag #todos class="form__row">
-        <mat-list-item (click)="mark(todo)" [class.complete]="todo?.isDone">
+        <mat-list-item (click)="mark(todo)"
+                       [class.complete]="todo?.isDone">
           {{todo.title}}
         </mat-list-item>
         <button mat-icon-button color="primary" aria-label="delete icon">
@@ -47,5 +41,14 @@
   <ng-template #noTodos>
     <p>No notes ...</p>
   </ng-template>
+
+  <div class="form form_btns">
+    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btns">
+      <mat-button-toggle value="bold" class="btns__item" (click)="sortAll()">All <mat-icon>dashboard</mat-icon></mat-button-toggle>
+      <mat-button-toggle value="bold" class="btns__item" (click)="sortDone()">Done <mat-icon>work</mat-icon></mat-button-toggle>
+      <mat-button-toggle value="italic" class="btns__item" (click)="sortInProgress()">In progress <mat-icon>work_outline</mat-icon></mat-button-toggle>
+      <!--      <mat-button-toggle value="underline" class="btns__item">by author</mat-button-toggle> -->
+    </mat-button-toggle-group>
+  </div>
 </div>
 
