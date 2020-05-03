@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <form class="form" [formGroup]="form">
+  <form class="form" [formGroup]="form" (submit)=" $event.preventDefault()" (keydown.enter)="$event.preventDefault()">
     <h4>Roxy List</h4>
     <mat-form-field class="full-width">
 
@@ -8,7 +8,7 @@
              placeholder="What's need to be done?" name="title">
     </mat-form-field>
 
-    <button mat-button   (click) = "addTodo()">Note</button>
+    <button mat-button (click) = "addTodo()">Note</button>
   </form>
 
   <div class="form form_btns">
@@ -20,17 +20,20 @@
     </mat-button-toggle-group>
   </div>
 
-<!--  <input [(ngModel)]="query">-->
-
+  <div class="search">
+    <mat-form-field appearance="legacy">
+      <mat-label>search</mat-label>
+      <input matInput placeholder="type to search" [(ngModel)]="searchInput">
+    </mat-form-field>
+  </div>
 
   <!--*ngIf="todos.length; else noTodos"-->
   <div class="form">
     <mat-selection-list cdkDropList (cdkDropListDropped)="drop($event)">
-<!--      <div *ngFor="let todo of todos | search:'id,title':query" cdkDrag #todos class="form__row">-->
-      <div *ngFor="let todo of todos" cdkDrag #todos class="form__row">
-        <mat-list-option (click)="mark(todo)">
+      <div *ngFor="let todo of todos | filter : searchInput : 'title'" cdkDrag #todos class="form__row">
+        <mat-list-item (click)="mark(todo)" [class.complete]="todo?.isDone">
           {{todo.title}}
-        </mat-list-option>
+        </mat-list-item>
         <button mat-icon-button color="primary" aria-label="delete icon">
           <mat-icon (click)="delete(todo)">delete</mat-icon>
         </button>

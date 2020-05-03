@@ -20,10 +20,18 @@
   &_btns {
     font-size: 20px;
     display: flex;
+    box-shadow: none;
+    min-width: fit-content;
     justify-content: center;
     max-width: 300px;
     padding: 0;
     background-color: transparent;
+  }
+}
+
+:host {
+  .complete {
+    text-decoration: line-through;
   }
 }
 
@@ -64,3 +72,12 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
+.search {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  margin: 0% auto;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+}

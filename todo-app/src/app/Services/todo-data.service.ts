@@ -35,7 +35,7 @@ export class TodoDataService {
       }))
   }
 
-  markTodo( todo: Todo ) {
+  markTodo( todo: Todo ): Observable<Todo> {
     return this.http
       .patch<IResponse>(`${this.baseUrl}/${todo.id}.json`, todo)
       .pipe(map(res => {
@@ -47,5 +47,4 @@ export class TodoDataService {
     return this.http
       .delete<void>(`${this.baseUrl}/${todo.id}.json`)
   }
-
 }

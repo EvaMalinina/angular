@@ -4,7 +4,6 @@ import { TodoDataService } from "../Services/todo-data.service";
 import { Todo } from "../Models/todo";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
-import { SearchPipe } from '../Pipe/searchPipe.components';
 
 @Component({
   selector: 'app-todo-list',
@@ -18,6 +17,7 @@ export class TodoListComponent implements OnInit {
   todos: ITodo[];
   todo: ITodo = new Todo( Date.now()+ '',"",false);
   form: FormGroup
+  searchInput: string
 
   constructor(private todoDataService: TodoDataService) { }
 
@@ -28,9 +28,9 @@ export class TodoListComponent implements OnInit {
     this.listTodo()
   }
 
+
   addTodo() {
     const { title } = this.form.value;
-
     const  todo: ITodo = {
       id: Date.now() + '',
       title,
@@ -42,6 +42,7 @@ export class TodoListComponent implements OnInit {
       this.form.reset()
     }, err => console.error(err))
   }
+
 
   listTodo() {
     this.todoDataService.listTodo().subscribe((data: ITodo[])=>{
@@ -61,6 +62,9 @@ export class TodoListComponent implements OnInit {
     this.todoDataService.markTodo(todo).subscribe((data)=>{
       return todo;
     });
+
+    this.sortDone()
+    this.sortInProgress()
   }
 
   delete( todo: Todo ) {
@@ -76,14 +80,18 @@ export class TodoListComponent implements OnInit {
   }
 
   sortAll() {
-    this.listTodo();
+    return this.todos
+    console.log('all',this.todos)
   }
 
   sortDone() {
-    this.todos = this.todos.filter(todo => todo.isDone !== false )
+    this.todos = this.todos.filter(todo => todo.isDone )
+    console.log('done',this.todos)
   }
 
   sortInProgress() {
-    this.todos = this.todos.filter(todo => todo.isDone !== true )
+    this.todos = this.todos.filter(todo => !todo.isDone)
+    console.log('not done', this.todos)
   }
+
 }

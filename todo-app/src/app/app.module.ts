@@ -20,12 +20,14 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { FilterPipe } from "./Pipe/filterPipe.components";
 
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,
