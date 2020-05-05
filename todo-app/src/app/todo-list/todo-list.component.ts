@@ -29,7 +29,6 @@ export class TodoListComponent implements OnInit {
     this.listTodo()
   }
 
-
   addTodo() {
     const { title } = this.form.value;
     const  todo: ITodo = {
@@ -59,17 +58,15 @@ export class TodoListComponent implements OnInit {
   }
 
   mark( todo: Todo ) {
-
-    // this.list = new FormGroup({
-    //   isDone: new FormControl()
-    // })
     todo.isDone = !todo.isDone;
     this.todoDataService.markTodo(todo).subscribe((data)=>{
-      return todo;
+      console.log('client todo', this.todo.isDone)
+      let updatedTodos = this.todos.filter(otherTodo => otherTodo.id !== data.id);
+      updatedTodos.push(data)
+      this.todos = updatedTodos;
+      console.log('todolist', this.todos)
     });
 
-    // this.sortDone()
-    // this.sortInProgress()
   }
 
   delete( todo: Todo ) {
