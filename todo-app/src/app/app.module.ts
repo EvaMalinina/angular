@@ -11,7 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { TodoListComponent } from './todo-list/todo-list.component';
+import {MY_FORMATS, TodoListComponent} from './todo-list/todo-list.component';
 import { TodoDataService } from './Services/todo-data.service';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
@@ -21,8 +21,9 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import { FilterPipe } from "./Pipe/filterPipe.components";
-import {MatExpansionModule} from "@angular/material/expansion";
-
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import {MAT_DATE_FORMATS, MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -30,27 +31,30 @@ import {MatExpansionModule} from "@angular/material/expansion";
     TodoListComponent,
     FilterPipe
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        MatListModule,
-        MatSelectModule,
-        MatInputModule,
-        FormsModule,
-        MatButtonModule,
-        AngularFireModule.initializeApp(environment.firebase),
-        AngularFireDatabaseModule,
-        ReactiveFormsModule,
-        DragDropModule,
-        MatCheckboxModule,
-        MatIconModule,
-        MatButtonToggleModule,
-        MatExpansionModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatListModule,
+    MatSelectModule,
+    MatInputModule,
+    FormsModule,
+    MatButtonModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireDatabaseModule,
+    ReactiveFormsModule,
+    DragDropModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatButtonToggleModule,
+    MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+  ],
   providers: [
     TodoDataService,
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
   ],
   bootstrap: [AppComponent],
 })

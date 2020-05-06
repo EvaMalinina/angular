@@ -5,37 +5,67 @@ import { Todo } from "../Models/todo";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 
+import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import * as _moment from 'moment';
+import { default as _rollupMoment } from 'moment';
+
+const moment = _rollupMoment || _moment;
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'LL',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
+
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
-  providers: [ TodoDataService ],
+  providers: [ TodoDataService,
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+    },
+
+    {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
+  ],
   encapsulation: ViewEncapsulation.None
 })
 
 export class TodoListComponent implements OnInit {
 
   todos: ITodo[];
-  todo: ITodo = new Todo(  "", "", false);
+  todo: ITodo = new Todo(  "", "", false, '');
   form: FormGroup
   list: FormGroup
   searchInput: string
+  step = 0
 
   constructor(private todoDataService: TodoDataService) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
       title: new FormControl('', [Validators.required, Validators.minLength(2)]),
+      deadline: new FormControl(moment(), Validators.required)
     })
     this.listTodo()
   }
 
   addTodo() {
-    const { title } = this.form.value;
+    const { title, deadline } = this.form.value;
     const  todo: ITodo = {
       id: Date.now() + '',
       title,
-      isDone: false
+      isDone: false,
+      deadline
     }
     this.todoDataService.addTodo(todo).subscribe( todo => {
       this.todos.push(todo);
@@ -49,6 +79,11 @@ export class TodoListComponent implements OnInit {
       let list = [];
       Object.keys(data).forEach(function(prop) {
         let val = data[prop]
+
+        for (val.prop in val ) {
+          if( val.prop == 'deadline')
+          val.deadline = moment(val.deadline).format('MM.DD.YYYY')
+        }
         list.push(val)
       })
       this.todos = list;
@@ -116,17 +151,8 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-  step = 0;
-
   setStep(index: number) {
     this.step = index;
   }
 
-  nextStep() {
-    this.step++;
-  }
-
-  prevStep() {
-    this.step--;
-  }
 }

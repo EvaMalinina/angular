@@ -1,36 +1,33 @@
 <div class="wrapper">
   <form class="form" [formGroup]="form" (submit)=" $event.preventDefault()" (keydown.enter)="$event.preventDefault()">
     <div class="form__bg">
-      <h4>Roxy List</h4>
-      <mat-form-field class="full-width">
+      <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Click to create a note
+          </mat-panel-title>
+          <mat-panel-description>
+            <mat-icon class="touch">touch_app</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
-        <input matInput
-               formControlName="title"
-               placeholder="What's need to be done?">
-      </mat-form-field>
-<!--      <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>-->
-<!--        <mat-expansion-panel-header>-->
-<!--          <mat-panel-title>-->
-<!--            Click to crate a note-->
-<!--          </mat-panel-title>-->
-<!--          <mat-panel-description>-->
-<!--            Type your name and age-->
-<!--            <mat-icon>account_circle</mat-icon>-->
-<!--          </mat-panel-description>-->
-<!--        </mat-expansion-panel-header>-->
+        <mat-form-field>
+          <mat-label>What's need to be done?</mat-label>
+          <input matInput formControlName="title">
+        </mat-form-field>
 
-<!--        <mat-form-field>-->
-<!--          <mat-label>What's need to be done?</mat-label>-->
-<!--          <input matInput>-->
-<!--        </mat-form-field>-->
+        <mat-form-field class="example-full-width">
+          <mat-label>Deadline</mat-label>
+<!--          [formControl]="date"-->
+          <input matInput [matDatepicker]="picker"  formControlName="deadline">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker></mat-datepicker>
+        </mat-form-field>
 
-<!--        <mat-form-field>-->
-<!--          <mat-label>Deadline</mat-label>-->
-<!--          <input matInput type="number" min="1">-->
-<!--        </mat-form-field>-->
-<!--      </mat-expansion-panel>-->
-
-      <button mat-button (click) = "addTodo()" [disabled]="form.invalid">Note</button>
+        <mat-action-row>
+          <button mat-button (click) = "addTodo()" [disabled]="form.invalid">Note</button>
+        </mat-action-row>
+      </mat-expansion-panel>
     </div>
   </form>
 
@@ -51,6 +48,10 @@
         <mat-list-item (click)="mark(todo)"
                        [class.complete]="todo?.isDone">
           {{todo.title}}
+          <div class="form__dealine">
+            <p class="form__dealine">Deadline:</p>
+            {{todo.deadline}}
+          </div>
         </mat-list-item>
         <button mat-icon-button color="primary" aria-label="delete icon">
           <mat-icon (click)="delete(todo)">delete</mat-icon>
