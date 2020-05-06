@@ -21,6 +21,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import { FilterPipe } from "./Pipe/filterPipe.components";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 
 @NgModule({
@@ -29,24 +30,25 @@ import { FilterPipe } from "./Pipe/filterPipe.components";
     TodoListComponent,
     FilterPipe
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatListModule,
-    MatSelectModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireDatabaseModule,
-    ReactiveFormsModule,
-    DragDropModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatButtonToggleModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatListModule,
+        MatSelectModule,
+        MatInputModule,
+        FormsModule,
+        MatButtonModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireDatabaseModule,
+        ReactiveFormsModule,
+        DragDropModule,
+        MatCheckboxModule,
+        MatIconModule,
+        MatButtonToggleModule,
+        MatExpansionModule
+    ],
   providers: [
     TodoDataService,
   ],

@@ -1,21 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { ITodo } from "../Models/todo.model";
 import { TodoDataService } from "../Services/todo-data.service";
 import { Todo } from "../Models/todo";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
-  providers: [ TodoDataService ]
+  providers: [ TodoDataService ],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class TodoListComponent implements OnInit {
 
   todos: ITodo[];
-  todo: ITodo = new Todo( Date.now()+ '',"",false);
+  todo: ITodo = new Todo(  "", "", false);
   form: FormGroup
   list: FormGroup
   searchInput: string
@@ -36,7 +37,6 @@ export class TodoListComponent implements OnInit {
       title,
       isDone: false
     }
-
     this.todoDataService.addTodo(todo).subscribe( todo => {
       this.todos.push(todo);
       this.form.reset()
@@ -46,25 +46,26 @@ export class TodoListComponent implements OnInit {
 
   listTodo() {
     this.todoDataService.listTodo().subscribe((data: ITodo[])=>{
-
       let list = [];
       Object.keys(data).forEach(function(prop) {
-        let inner = data[prop]
-        let val = Object.values(inner)[0]
+        let val = data[prop]
         list.push(val)
       })
       this.todos = list;
     });
   }
 
+  sortByDone() {
+    this.todos.sort((a, b) => {
+      return <any>a.isDone - <any>b.isDone
+    })
+  }
+
   mark( todo: Todo ) {
     todo.isDone = !todo.isDone;
     this.todoDataService.markTodo(todo).subscribe((data)=>{
-      console.log('client todo', this.todo.isDone)
-      let updatedTodos = this.todos.filter(otherTodo => otherTodo.id !== data.id);
-      updatedTodos.push(data)
-      this.todos = updatedTodos;
-      console.log('todolist', this.todos)
+      this.sortByDone();
+      return todo;
     });
 
   }
@@ -81,19 +82,51 @@ export class TodoListComponent implements OnInit {
     moveItemInArray(this.todos, event.previousIndex, event.currentIndex);
   }
 
-  sortAll() {
-    return this.todos
-    console.log('all',this.todos)
-  }
-
   sortDone() {
-    this.todos = this.todos.filter(todo => todo.isDone )
-    console.log('done',this.todos)
+    this.todoDataService.listTodo().subscribe((data: ITodo[])=>{
+      let list = [];
+      Object.keys(data).forEach(function(prop) {
+        let val = data[prop]
+        if ( val.isDone) {
+          list.push(val)
+        }
+      })
+      this.todos = list;
+    });
   }
 
   sortInProgress() {
-    this.todos = this.todos.filter(todo => !todo.isDone)
-    console.log('not done', this.todos)
+    this.todoDataService.listTodo().subscribe((data: ITodo[])=>{
+      let list = [];
+      Object.keys(data).forEach(function(prop) {
+        let val = data[prop]
+        if ( !val.isDone) {
+          list.push(val)
+        }
+      })
+      this.todos = list;
+    });
   }
 
+  sortByAlphabet() {
+    this.todos.sort((a, b) => {
+      if (a.title < b.title) return -1;
+      else if (a.title > b.title) return 1;
+      else return 0;
+    });
+  }
+
+  step = 0;
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
+  }
 }

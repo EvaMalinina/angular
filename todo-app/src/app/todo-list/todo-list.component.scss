@@ -51,12 +51,14 @@
     box-shadow: 3px 3px 4px 4px whitesmoke;
     font-size: 14px;
   }
+
+  .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+    font-size: 15px;
+  }
 }
 
-:host {
-  .complete {
-    text-decoration: line-through;
-  }
+.mat-list-item.mat-focus-indicator.complete {
+  text-decoration: line-through;
 }
 
 .full-width {
@@ -108,4 +110,16 @@
   font-size: 15px;
   display: flex;
   justify-content: center;
+  color: #cdcdcd;
+
+  .mat-form-field-appearance-legacy .mat-form-field-underline {
+    background-color: whitesmoke;
+  }
+
+  .mat-form-field-appearance-legacy .mat-form-field-label {
+    color: #cdcdcd;
+  }
 }
+
+
+

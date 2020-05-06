@@ -8,13 +8,34 @@
                formControlName="title"
                placeholder="What's need to be done?">
       </mat-form-field>
+<!--      <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>-->
+<!--        <mat-expansion-panel-header>-->
+<!--          <mat-panel-title>-->
+<!--            Click to crate a note-->
+<!--          </mat-panel-title>-->
+<!--          <mat-panel-description>-->
+<!--            Type your name and age-->
+<!--            <mat-icon>account_circle</mat-icon>-->
+<!--          </mat-panel-description>-->
+<!--        </mat-expansion-panel-header>-->
+
+<!--        <mat-form-field>-->
+<!--          <mat-label>What's need to be done?</mat-label>-->
+<!--          <input matInput>-->
+<!--        </mat-form-field>-->
+
+<!--        <mat-form-field>-->
+<!--          <mat-label>Deadline</mat-label>-->
+<!--          <input matInput type="number" min="1">-->
+<!--        </mat-form-field>-->
+<!--      </mat-expansion-panel>-->
 
       <button mat-button (click) = "addTodo()" [disabled]="form.invalid">Note</button>
     </div>
   </form>
 
   <div class="search">
-    <mat-form-field appearance="legacy">
+    <mat-form-field appearance="legacy" color="primary">
       <mat-label>search</mat-label>
       <input matInput placeholder="type to search" [(ngModel)]="searchInput">
     </mat-form-field>
@@ -22,6 +43,9 @@
 
   <!--*ngIf="todos.length; else noTodos"-->
   <div class="form">
+    <button mat-icon-button color="primary" aria-label="sort icon">
+      <mat-icon (click)="sortByAlphabet()">sort</mat-icon>
+    </button>
     <mat-selection-list cdkDropList (cdkDropListDropped)="drop($event)">
       <div *ngFor="let todo of todos | filter : searchInput : 'title'" cdkDrag #todos class="form__row">
         <mat-list-item (click)="mark(todo)"
@@ -33,9 +57,6 @@
         </button>
       </div>
     </mat-selection-list>
-    <!--  <p>-->
-    <!--    Already done: {{todos.selectedOptions.selected.length}}-->
-    <!--  </p>-->
   </div>
 
   <ng-template #noTodos>
@@ -44,10 +65,9 @@
 
   <div class="form form_btns">
     <mat-button-toggle-group name="fontStyle" aria-label="Font Style" class="btns">
-      <mat-button-toggle value="bold" class="btns__item" (click)="sortAll()">All <mat-icon>dashboard</mat-icon></mat-button-toggle>
+      <mat-button-toggle value="bold" class="btns__item" (click)="listTodo()">All <mat-icon>dashboard</mat-icon></mat-button-toggle>
       <mat-button-toggle value="bold" class="btns__item" (click)="sortDone()">Done <mat-icon>work</mat-icon></mat-button-toggle>
       <mat-button-toggle value="italic" class="btns__item" (click)="sortInProgress()">In progress <mat-icon>work_outline</mat-icon></mat-button-toggle>
-      <!--      <mat-button-toggle value="underline" class="btns__item">by author</mat-button-toggle> -->
     </mat-button-toggle-group>
   </div>
 </div>

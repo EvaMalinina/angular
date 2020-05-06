@@ -29,42 +29,23 @@ export class TodoDataService {
 
   addTodo(todo: Todo): Observable<Todo> {
     return this.http
-      .post<IResponse>(`${this.baseUrl}/${todo.id}.json`, todo)
+      .post<IResponse>(`${this.baseUrl}/.json`, todo)
       .pipe(map(res => {
         return {...todo, id: res.name}
       }))
   }
 
   markTodo( todo: Todo ): Observable<Todo> {
-    console.log('server', todo.id)
     return this.http
-      .patch<IResponse>(`${this.baseUrl}/${todo.id}/.json`, todo)
+      .patch<IResponse>(`${this.baseUrl}/${todo.id}.json`, todo)
       .pipe(map(res => {
-        console.log('server 2', todo)
         return todo
-        // return {...todo, id: res.name}
+        // return {...todo, todo.id}
       }))
   }
 
-  // markTodo( todo: Todo ) {
-  //   console.log('server', todo.id)
-  //   return this.http
-  //     .patch(`${this.baseUrl}/${todo.id}/.json`, { "isDone": ``${!todo.idDone}`` })
-  //     .subscribe(
-  //       (val) => {
-  //         console.log("PATCH call successful value returned in body",
-  //           val);
-  //       },
-  //       response => {
-  //         console.log("PATCH call in error", response);
-  //       },
-  //       () => {
-  //         console.log("The PATCH observable is now completed.");
-  //       });
-  //
-  // }
-
   deleteTodo( todo: Todo ): Observable<void> {
+    console.log('todo.id', todo.id)
     return this.http
       .delete<void>(`${this.baseUrl}/${todo.id}.json`)
   }
