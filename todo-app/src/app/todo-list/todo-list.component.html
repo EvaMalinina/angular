@@ -18,7 +18,6 @@
 
         <mat-form-field class="example-full-width">
           <mat-label>Deadline</mat-label>
-<!--          [formControl]="date"-->
           <input matInput [matDatepicker]="picker"  formControlName="deadline">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker touchUi #picker></mat-datepicker>
@@ -38,30 +37,55 @@
     </mat-form-field>
   </div>
 
-  <!--*ngIf="todos.length; else noTodos"-->
-  <div class="form">
-    <button mat-icon-button color="primary" aria-label="sort icon">
-      <mat-icon (click)="sortByAlphabet()">sort</mat-icon>
-    </button>
+  <div class="form" *ngIf="todos.length; else noTodos">
+    <div class="form__sort-btns">
+      <div class="sort-btns">
+        <button mat-icon-button color="legacy" aria-label="sort by alphabet icon">
+          <mat-icon (click)="sortByAlphabet()">text_format</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" aria-label="sort by data icon" class="sort-btns__alf">
+          <mat-icon (click)="sortByDeadline()">sort</mat-icon>
+        </button>
+      </div>
+    </div>
+
     <mat-selection-list cdkDropList (cdkDropListDropped)="drop($event)">
-      <div *ngFor="let todo of todos | filter : searchInput : 'title'" cdkDrag #todos class="form__row">
+      <div *ngFor="let todo of todos | filter : searchInput : 'title'"
+           cdkDrag
+           class="form__row"
+      >
         <mat-list-item (click)="mark(todo)"
-                       [class.complete]="todo?.isDone">
+                       [class.complete]="todo?.isDone"
+                       [@noteAnimation]="animationState"
+                       (@noteAnimation.done)="resetAnimationState()"
+                       (swipeleft)="startAnimation('swipeLeft')"
+                       (swiperight)="startAnimation('swipeRight')"
+        >
           {{todo.title}}
           <div class="form__dealine">
             <p class="form__dealine">Deadline:</p>
             {{todo.deadline}}
           </div>
         </mat-list-item>
+
         <button mat-icon-button color="primary" aria-label="delete icon">
           <mat-icon (click)="delete(todo)">delete</mat-icon>
+        </button>
+
+        <button mat-icon-button
+                color="primary"
+                aria-label="arrow icon"
+                class="form__swipe-btn"
+                (swipeleft)="startAnimation('swipeLeft')"
+                (swiperight)="startAnimation('swipeRight')"
+        >
+          <mat-icon>swap_horiz</mat-icon>
         </button>
       </div>
     </mat-selection-list>
   </div>
 
   <ng-template #noTodos>
-    <p>No notes ...</p>
   </ng-template>
 
   <div class="form form_btns">

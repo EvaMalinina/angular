@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule, HammerModule} from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -51,6 +51,7 @@ import {MAT_DATE_FORMATS, MatNativeDateModule} from "@angular/material/core";
     MatExpansionModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    HammerModule
   ],
   providers: [
     TodoDataService,

@@ -10,7 +10,11 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 
+import {trigger, keyframes, animate, transition} from "@angular/animations";
+import * as keyfr from '../keyframes/keyframes';
 const moment = _rollupMoment || _moment;
+
+
 
 export const MY_FORMATS = {
   parse: {
@@ -28,6 +32,7 @@ export const MY_FORMATS = {
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
   styleUrls: ['./todo-list.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [ TodoDataService,
     {
       provide: DateAdapter,
@@ -37,7 +42,12 @@ export const MY_FORMATS = {
 
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
   ],
-  encapsulation: ViewEncapsulation.None
+  animations: [
+    trigger( 'noteAnimation', [
+      transition('* => swipeLeft', animate(700, keyframes(keyfr.swipeLeft))),
+      transition('* => swipeRight', animate(700, keyframes(keyfr.swipeRight))),
+    ])
+  ]
 })
 
 export class TodoListComponent implements OnInit {
@@ -48,19 +58,21 @@ export class TodoListComponent implements OnInit {
   list: FormGroup
   searchInput: string
   step = 0
+  animationState: string
 
   constructor(private todoDataService: TodoDataService) { }
 
   ngOnInit(): void {
     this.form = new FormGroup({
       title: new FormControl('', [Validators.required, Validators.minLength(2)]),
-      deadline: new FormControl(moment(), Validators.required)
+      deadline: new FormControl(  '', Validators.required)
     })
     this.listTodo()
   }
 
   addTodo() {
-    const { title, deadline } = this.form.value;
+    let { title, deadline } = this.form.value;
+    deadline = moment(deadline).format('DD.MM.YYYY');
     const  todo: ITodo = {
       id: Date.now() + '',
       title,
@@ -73,17 +85,11 @@ export class TodoListComponent implements OnInit {
     }, err => console.error(err))
   }
 
-
   listTodo() {
     this.todoDataService.listTodo().subscribe((data: ITodo[])=>{
       let list = [];
       Object.keys(data).forEach(function(prop) {
         let val = data[prop]
-
-        for (val.prop in val ) {
-          if( val.prop == 'deadline')
-          val.deadline = moment(val.deadline).format('MM.DD.YYYY')
-        }
         list.push(val)
       })
       this.todos = list;
@@ -102,7 +108,6 @@ export class TodoListComponent implements OnInit {
       this.sortByDone();
       return todo;
     });
-
   }
 
   delete( todo: Todo ) {
@@ -151,8 +156,23 @@ export class TodoListComponent implements OnInit {
     });
   }
 
+  sortByDeadline() {
+    this.todos.sort((a, b) => {
+      if (a.deadline < b.deadline) return -1;
+    })
+  }
+
   setStep(index: number) {
     this.step = index;
   }
 
+  startAnimation(state) {
+    if (!this.animationState) {
+      this.animationState = state;
+    }
+  }
+
+  resetAnimationState() {
+    this.animationState = '';
+  }
 }

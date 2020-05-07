@@ -36,7 +36,7 @@
     min-width: 100%;
     padding: 0;
     background-color: transparent;
-    position: absolute;
+    position: fixed;
     bottom: 0;
     margin: 0;
   }
@@ -62,6 +62,26 @@
       font-size: 9px;
       line-height: 0;
     }
+  }
+
+  &__swipe-btn {
+    max-width: 27px;
+  }
+
+  &__sort-btns {
+    display: flex;
+    margin: -1%;
+  }
+}
+
+.sort-btns {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__alf {
+    transform: rotateY(180deg);
   }
 }
 
@@ -90,6 +110,8 @@
 .form__row {
   display: flex;
   justify-content: space-between;
+  animation-fill-mode: forwards;
+  -webkit-animation-fill-mode: forwards;
 }
 
 .mat-list-base {

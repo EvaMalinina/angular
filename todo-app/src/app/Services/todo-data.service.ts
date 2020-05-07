@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Todo } from '../Models/todo';
 import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import { map } from "rxjs/operators";
 import { IResponse } from "../Models/res.model";
 
 @Injectable({
@@ -39,13 +39,11 @@ export class TodoDataService {
     return this.http
       .patch<IResponse>(`${this.baseUrl}/${todo.id}.json`, todo)
       .pipe(map(res => {
-        return todo
-        // return {...todo, todo.id}
+        return todo;
       }))
   }
 
   deleteTodo( todo: Todo ): Observable<void> {
-    console.log('todo.id', todo.id)
     return this.http
       .delete<void>(`${this.baseUrl}/${todo.id}.json`)
   }
