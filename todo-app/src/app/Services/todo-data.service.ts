@@ -39,7 +39,7 @@ export class TodoDataService {
     return this.http
       .patch<IResponse>(`${this.baseUrl}/${todo.id}.json`, todo)
       .pipe(map(res => {
-        return todo;
+        return {...todo, id: res.name}
       }))
   }
 
