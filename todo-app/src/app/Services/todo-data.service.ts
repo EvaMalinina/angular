@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Todo } from '../Models/todo';
-import {Observable} from "rxjs";
+import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { IResponse } from "../Models/res.model";
 
@@ -19,7 +19,7 @@ export class TodoDataService {
   listTodo() {
     return this.http
       .get<Todo[]>(`${this.baseUrl}.json`)
-      .pipe(map( todos => {
+      .pipe(map(todos => {
         if (!todos) {
           return []
         }
@@ -39,7 +39,8 @@ export class TodoDataService {
     return this.http
       .patch<IResponse>(`${this.baseUrl}/${todo.id}.json`, todo)
       .pipe(map(res => {
-        return {...todo, id: res.name}
+        // return {...todo, id: res.name}
+        return todo;
       }))
   }
 

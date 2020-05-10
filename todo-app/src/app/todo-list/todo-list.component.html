@@ -1,4 +1,5 @@
 <div class="wrapper">
+<!--  <app-form></app-form>-->
   <form class="form" [formGroup]="form" (submit)=" $event.preventDefault()" (keydown.enter)="$event.preventDefault()">
     <div class="form__bg">
       <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>

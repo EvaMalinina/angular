@@ -2,6 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { ITodo } from "../Models/todo.model";
 import { TodoDataService } from "../Services/todo-data.service";
 import { Todo } from "../Models/todo";
+
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 
@@ -12,8 +13,8 @@ import { default as _rollupMoment } from 'moment';
 
 import {trigger, keyframes, animate, transition} from "@angular/animations";
 import * as keyfr from '../keyframes/keyframes';
+import {AutoUnsubscribe} from "ngx-auto-unsubscribe";
 const moment = _rollupMoment || _moment;
-
 
 
 export const MY_FORMATS = {
@@ -28,6 +29,7 @@ export const MY_FORMATS = {
   },
 };
 
+@AutoUnsubscribe()
 @Component({
   selector: 'app-todo-list',
   templateUrl: './todo-list.component.html',
@@ -63,11 +65,26 @@ export class TodoListComponent implements OnInit {
   constructor(private todoDataService: TodoDataService) { }
 
   ngOnInit(): void {
+    this.createForm()
+    this.listTodo()
+  }
+
+  createForm() {
     this.form = new FormGroup({
       title: new FormControl('', [Validators.required, Validators.minLength(2)]),
       deadline: new FormControl(  '', Validators.required)
     })
-    this.listTodo()
+  }
+
+  listTodo() {
+    this.todoDataService.listTodo().subscribe((data: ITodo[])=>{
+      let list = [];
+      Object.keys(data).forEach(function(prop) {
+        let val = data[prop]
+        list.push(val)
+      })
+      this.todos = list;
+    });
   }
 
   addTodo() {
@@ -85,15 +102,8 @@ export class TodoListComponent implements OnInit {
     }, err => console.error(err))
   }
 
-  listTodo() {
-    this.todoDataService.listTodo().subscribe((data: ITodo[])=>{
-      let list = [];
-      Object.keys(data).forEach(function(prop) {
-        let val = data[prop]
-        list.push(val)
-      })
-      this.todos = list;
-    });
+  setStep(index: number) {
+    this.step = index;
   }
 
   sortByDone() {
@@ -162,10 +172,6 @@ export class TodoListComponent implements OnInit {
     })
   }
 
-  setStep(index: number) {
-    this.step = index;
-  }
-
   startAnimation(state) {
     if (!this.animationState) {
       this.animationState = state;
@@ -175,4 +181,6 @@ export class TodoListComponent implements OnInit {
   resetAnimationState() {
     this.animationState = '';
   }
+
+  ngOnDestroy() {}
 }
