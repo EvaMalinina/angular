@@ -26,6 +26,8 @@ import { TodoDataService } from './Services/todo-data.service';
 import { MY_FORMATS, TodoListComponent } from './todo-list/todo-list.component';
 import { FormComponent } from './form/form.component';
 
+// import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,6 +60,7 @@ import { FormComponent } from './form/form.component';
   providers: [
     TodoDataService,
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+    // {provide: LocationStrategy, useClass: HashLocationStrategy}
   ],
   bootstrap: [AppComponent],
 })

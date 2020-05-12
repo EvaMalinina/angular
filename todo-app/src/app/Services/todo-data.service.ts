@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Todo } from '../Models/todo';
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { IResponse } from "../Models/res.model";
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { IResponse } from '../Models/res.model';
 
 @Injectable({
   providedIn: 'root'
@@ -21,18 +21,18 @@ export class TodoDataService {
       .get<Todo[]>(`${this.baseUrl}.json`)
       .pipe(map(todos => {
         if (!todos) {
-          return []
+          return [];
         }
         return todos;
-      }))
+      }));
   }
 
   addTodo(todo: Todo): Observable<Todo> {
     return this.http
       .post<IResponse>(`${this.baseUrl}/.json`, todo)
       .pipe(map(res => {
-        return {...todo, id: res.name}
-      }))
+        return {...todo, id: res.name};
+      }));
   }
 
   markTodo( todo: Todo ): Observable<Todo> {
@@ -41,11 +41,11 @@ export class TodoDataService {
       .pipe(map(res => {
         // return {...todo, id: res.name}
         return todo;
-      }))
+      }));
   }
 
   deleteTodo( todo: Todo ): Observable<void> {
     return this.http
-      .delete<void>(`${this.baseUrl}/${todo.id}.json`)
+      .delete<void>(`${this.baseUrl}/${todo.id}.json`);
   }
 }

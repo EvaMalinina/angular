@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import {MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import * as _moment from 'moment';
 import { default as _rollupMoment } from 'moment';
 
-import {TodoDataService} from "../Services/todo-data.service";
-import {ITodo} from "../Models/todo.model";
-import {Todo} from "../Models/todo";
-import {AutoUnsubscribe} from "ngx-auto-unsubscribe";
+import {TodoDataService} from '../Services/todo-data.service';
+import {ITodo} from '../Models/todo.model';
+import {Todo} from '../Models/todo';
+import {AutoUnsubscribe} from 'ngx-auto-unsubscribe';
 const moment = _rollupMoment || _moment;
 
 export const MY_FORMATS = {
@@ -39,13 +39,14 @@ export const MY_FORMATS = {
     {provide: MAT_DATE_FORMATS, useValue: MY_FORMATS},
   ],
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, OnDestroy {
 
-  todos: ITodo[];
-  todo: ITodo = new Todo(  "", "", false, '');
-  form: FormGroup
-  step = 0
-  list: FormGroup
+  todo: ITodo = new Todo(  '', '', false, '');
+  form: FormGroup;
+  step = 0;
+  list: FormGroup;
+
+  @Output() public outToParent = new EventEmitter();
 
   constructor(private todoDataService: TodoDataService) { }
 
@@ -57,22 +58,23 @@ export class FormComponent implements OnInit {
     this.form = new FormGroup({
       title: new FormControl('', [Validators.required, Validators.minLength(2)]),
       deadline: new FormControl(  '', Validators.required)
-    })
+    });
   }
 
   addTodo() {
-    let { title, deadline } = this.form.value;
+    const { title } = this.form.value;
+    let { deadline } = this.form.value;
     deadline = moment(deadline).format('DD.MM.YYYY');
     const  todo: ITodo = {
       id: Date.now() + '',
       title,
       isDone: false,
       deadline
-    }
+    };
     this.todoDataService.addTodo(todo).subscribe( todo => {
-      this.todos.push(todo);
-      this.form.reset()
-    }, err => console.error(err))
+      this.outToParent.emit(todo);
+      this.form.reset();
+    }, err => console.error(err));
   }
 
   setStep(index: number) {
