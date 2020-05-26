@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {RecordsComponent} from "./records/records.component";
 import {QuestionComponent} from "./question/question.component";
 import {GameComponent} from "./game/game.component";
 

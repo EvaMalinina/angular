@@ -15,15 +15,12 @@ export class GameComponent implements OnInit {
   time: number = 10;
   interval;
   records: any[] = [];
-  // show: boolean = false;
   visibleBtn: boolean = false;
 
   constructor( private nameService: NameService ) {}
 
-  ngOnInit(): void {
-    this.nameService.sharedName.subscribe(resp => {
-      this.name = resp;
-    });
+  ngOnInit() {
+    this.nameService.sharedName.subscribe(name => this.name = name)
   }
 
   showClickBtn() {
